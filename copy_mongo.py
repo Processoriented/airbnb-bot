@@ -165,7 +165,7 @@ if __name__ == "__main__":
             # ASSUMPTION: If the sizes match, the documents are identical
             print(
                 "[%s] has already been copied.  Skipping." %
-                collection_destination.database.name + "." + collection_destination.name)
+                (collection_destination.database.name + "." + collection_destination.name))
             continue
 
         # case 2b: the collection only partially exists in the destination
