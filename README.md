@@ -17,14 +17,14 @@ You should see `airbnbbot_zeppelin` and `airbnbbot_mongodb` listed.
   * Each section is called a "Paragraph" and contains a play button.  In the first paragraph, click the play button.
   * If that seems to work, click the play button for the next paragraph, and so on.  Make sure you wait for each paragraph to finish before running the next paragraph.
 * Confirm that MongoDB is running:  
-`$ docker exec -it airbnbbot_mongodb_1 mongo` (This opens a MongoDB shell on your MongoDB docker container)  
-`> show dbs` (Show databases if you're curious)  
-`> exit` (Exits the MongoDB shell and returns you to your terminal)  
+  * `$ docker exec -it airbnbbot_mongodb_1 mongo` (This opens a MongoDB shell on your MongoDB docker container)  
+  * `> show dbs` (Show databases if you're curious)  
+  * `> exit` (Exits the MongoDB shell and returns you to your terminal)  
 
 ## Copy data into local MongoDB docker container
 The `copy_mongo.py` script will copy data from a remote MongoDB to your locally running MongoDB docker container.
 
-NOTE: You will need to place a `ca.pem` file in the repo directory to connect to the remote MongoDB.  The `ca.pem` file will be provided to you by the workshop presenters.
+**NOTE**: You will need to place a `ca.pem` file in the repo directory to connect to the remote MongoDB.  The `ca.pem` file will be provided to you by the workshop presenters.
 
 Once you have the `ca.pem` file, you can start copying data, which will take a while.  For example, try:  
 `$ python copy_mongo.py python copy_mongo.py --start-date=20170601` (Copies data from 6/1/2017 thru the current date)
@@ -35,11 +35,12 @@ For more usage info:
 ## Try out Spark Connector in Zeppelin
 You can do this while you are waiting for the data copy to complete.
 
-SIDE NOTE: Here are some pointers to additional info on the Spark Connector:  
+**SIDE NOTE**: Here are some pointers to additional info on the Spark Connector:  
 SparkPackages: https://spark-packages.org/package/mongodb/mongo-spark  
 Docs: https://docs.mongodb.com/spark-connector/current/  
 GitHub: https://github.com/mongodb/mongo-spark
 
+Instructions:
 * Add the MongoDB Spark Connector to Zeppelin's Spark interpreter:
   * Go to the Zeppelin interprer menu: http://localhost:8080/#/interpreter
   * In the search box, type "spark" to find the spark interpreter.
