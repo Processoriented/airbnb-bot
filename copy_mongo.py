@@ -3,16 +3,13 @@ from pprint import pprint
 from optparse import OptionParser
 from datetime import date, timedelta
 import sys
+import os
 
 from pymongo import MongoClient, collection, cursor
 from pymongo.errors import BulkWriteError
 
 from bson import objectid
 from bson.son import SON
-
-
-
-
 
 SOURCE_URI = "mongodb://admin:JMBTXCSOUOERIQDG@sl-us-dal-9-portal.0.dblayer.com:17820,sl-us-dal-9-portal.3.dblayer.com:17820/admin?ssl=true"
 DESTINATION_URI = "mongodb://0.0.0.0:27017"
@@ -60,7 +57,17 @@ def mongo_do_bulk_insert(target_collection, documents_to_insert):
         pprint(bwe.details)
         exit()
 
-    print(str(result))
+    inserted_count = len(result.inserted_ids)
+
+    if inserted_count == documents_to_insert.count():
+        print("Successfully inserted all [%d] documents." % inserted_count)
+    elif inserted_count < documents_to_insert.count():
+        print("Not all insertions succeeded.  Inserted [%d] out of [%d] documents." % (
+            inserted_count, documents_to_insert.count()))
+    else:
+        print("ERROR: Inserted [%d] documents, which is more than documents_to_insert.count() [%d]." % (
+            inserted_count, documents_to_insert.count()))
+        exit()
 
 
 def mongo_id_already_exists(object_id, target_collection):
@@ -117,6 +124,10 @@ if __name__ == "__main__":
     end_date = date.today()
 
     # connect to source and destination MongoDBs
+    path_to_certificate = "./ca.pem"
+    assert os.path.exists(
+        path_to_certificate), "[%s] does not exist.  You must copy an ssl certificate to the working directory.  " \
+                              "To request an ssl certificate, contact the repo owner."
     mongo_client_source = MongoClient(SOURCE_URI, ssl_ca_certs="./ca.pem")
     mongo_client_destination = MongoClient(DESTINATION_URI)
 
@@ -148,5 +159,14 @@ if __name__ == "__main__":
         # case 2: the collection already exists in the destination
         assert collection_name in database_destination.collection_names()
         collection_destination = database_destination.get_collection(collection_name)
-        mongo_do_iterative_insert(collection_destination, documents)
 
+        # case 2a: the *full* collection already exists in the destination
+        if collection_destination.count() == collection_source.count():
+            # ASSUMPTION: If the sizes match, the documents are identical
+            print(
+                "[%s] has already been copied.  Skipping." %
+                collection_destination.database.name + "." + collection_destination.name)
+            continue
+
+        # case 2b: the collection only partially exists in the destination
+        mongo_do_iterative_insert(collection_destination, documents)
