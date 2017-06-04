@@ -56,4 +56,4 @@ Instructions:
   * Navigate to your repo directory and select the `spark-connector-tutorial.json` file.
   * You should be back on the welcome page now.  In the **Notebook** dropdown, select "Spark Connector Tutorial".
   * Read through the first paragraph--it is heavily commented.
-  * Try running the paragraph(s).
+  * Try running the paragraphs.
