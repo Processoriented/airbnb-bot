@@ -1,5 +1,6 @@
 # Airbnb Bot
 ## Getting Started
+* Clone the repo.
 * Run the multicontainer docker app:  
 `$ docker-compose up --build -d`  
 This consists of a MongoDB container and a Zeppelin container.  This will take a while the first time as it downloads the MongoDB and Zeppelin docker images.
