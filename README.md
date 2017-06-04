@@ -32,8 +32,13 @@ Once you have the `ca.pem` file, you can start copying data, which will take a w
 For more usage info:  
 `$ python copy_mongo.py --help`
 
-## Play with Zeppelin
-While you are waiting for the data copy to complete, you can begin playing with Zeppelin.
+## Try out Spark Connector in Zeppelin
+You can do this while you are waiting for the data copy to complete.
+
+SIDE NOTE: Here are some pointers to additional info on the Spark Connector:  
+SparkPackages: https://spark-packages.org/package/mongodb/mongo-spark  
+Docs: https://docs.mongodb.com/spark-connector/current/  
+GitHub: https://github.com/mongodb/mongo-spark
 
 * Add the MongoDB Spark Connector to Zeppelin's Spark interpreter:
   * Go to the Zeppelin interprer menu: http://localhost:8080/#/interpreter
@@ -42,7 +47,12 @@ While you are waiting for the data copy to complete, you can begin playing with 
   * Scroll down to the **Dependencies** section.
   * Under **artifact**, in the text box paste `org.mongodb.spark:mongo-spark-connector_2.11:2.0.0`
   * Click the "Save" button
-  * Pointers to additional info on the Spark Connector:
-    * SparkPackages: https://spark-packages.org/package/mongodb/mongo-spark
-    * Docs: https://docs.mongodb.com/spark-connector/current/
-    * GitHub: https://github.com/mongodb/mongo-spark
+
+* Import a Zeppelin notebook that uses the Spark Connector:
+  * Go to the welcome page: http://localhost:8080/#/
+  * Click "Import note".
+  * Click the "Choose a JSON here" button.
+  * Navigate to your repo directory and select the `spark-connector-tutorial.json` file.
+  * You should be back on the welcome page now.  In the **Notebook** dropdown, select "Spark Connector Tutorial".
+  * Read through the first paragraph--it is heavily commented.
+  * Try running the paragraph(s).
