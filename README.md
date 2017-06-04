@@ -9,7 +9,13 @@ This consists of a MongoDB container and a Zeppelin container.  This will take a
 `$ docker ps`  
 You should see `airbnbbot_zeppelin` and `airbnbbot_mongodb` listed.
 
-* Confirm that Zeppelin is running by opening the web interface: http://localhost:8080/  
+* Confirm that Zeppelin is running by opening the web interface: http://localhost:8080/
+  * Click on the **Notebook** dropdown
+  * Click on **Zeppelin Tutorial**
+  * Click on **Basic Features (Spark)**
+  * You will see a list of interpreters. They are fine--click the "Save" button.
+  * Each section is called a "Paragraph" and contains a play button.  In the first paragraph, click the play button.
+  * If that seems to work, click the play button for the next paragraph, and so on.  Make sure you wait for each paragraph to finish before running the next paragraph.
 * Confirm that MongoDB is running:  
 `$ docker exec -it airbnbbot_mongodb_1 mongo` (This opens a MongoDB shell on your MongoDB docker container)  
 `> show dbs` (Show databases if you're curious)  
@@ -31,4 +37,12 @@ While you are waiting for the data copy to complete, you can begin playing with 
 
 * Add the MongoDB Spark Connector to Zeppelin's Spark interpreter:
   * Go to the Zeppelin interprer menu: http://localhost:8080/#/interpreter
-  * To be continued
+  * In the search box, type "spark" to find the spark interpreter.
+  * Click the "edit" button.
+  * Scroll down to the **Dependencies** section.
+  * Under **artifact**, in the text box paste `org.mongodb.spark:mongo-spark-connector_2.11:2.0.0`
+  * Click the "Save" button
+  * Pointers to additional info on the Spark Connector:
+    * SparkPackages: https://spark-packages.org/package/mongodb/mongo-spark
+    * Docs: https://docs.mongodb.com/spark-connector/current/
+    * GitHub: https://github.com/mongodb/mongo-spark
