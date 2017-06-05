@@ -1,4 +1,8 @@
 # Airbnb Bot
+
+## Boxes and Arrows
+https://docs.google.com/presentation/d/1BAVQ4aTnTCOD8iiBl3Q-AL68n_0g0FVQCe0OpD4Cc0g/edit?usp=sharing
+
 ## Getting Started
 * Clone the repo.
 * Run the multicontainer docker app:  
