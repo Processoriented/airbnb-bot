@@ -11,6 +11,8 @@ from pymongo.errors import BulkWriteError
 from bson import objectid
 from bson.son import SON
 
+from utilities import convert_yyyymmdd_to_date, convert_date_to_yyyymmdd, daterange
+
 SOURCE_URI = "mongodb://admin:JMBTXCSOUOERIQDG@sl-us-dal-9-portal.0.dblayer.com:17820,sl-us-dal-9-portal.3.dblayer.com:17820/admin?ssl=true"
 DESTINATION_URI = "mongodb://0.0.0.0:27017"
 
@@ -19,29 +21,13 @@ def parse_args():
     parser = OptionParser(usage="Usage: %prog [options]",
                           description="Copy data from Trevor's mongodb to your locally running mongodb.")
     parser.add_option("-s", "--start-date",
-                      dest="start_date", default="20170101", type=str,
-                      help="How far back to copy data.  Provide a date in 'yyyymmdd' format.")
+                      dest="start_date", default="20170601", type=str,
+                      help="How far back in time to copy data from.  Provide a date in 'yyyymmdd' format.")
+    parser.add_option("-e", "--end-date",
+                      dest="end_date", default="20170604", type=str,
+                      help="The end date to copy data up to.  Provide a date in 'yyyymmdd' format.")
 
     return parser.parse_args()
-
-
-def convert_yyyymmdd_to_date(yyyymmdd):
-    assert isinstance(yyyymmdd, str)
-
-    return date(int(yyyymmdd[0:4]), int(yyyymmdd[4:6]), int(yyyymmdd[6:8]))
-
-
-def convert_date_to_yyyymmdd(a_date):
-    assert isinstance(a_date, date)
-
-    return str(a_date.year).zfill(4) + str(a_date.month).zfill(2) + str(a_date.day).zfill(2)
-
-
-def daterange(start_date, end_date):
-    assert isinstance(start_date, date) and isinstance(end_date, date)
-
-    for n in range(int((end_date - start_date).days) + 1):
-        yield start_date + timedelta(n)
 
 
 def mongo_do_bulk_insert(target_collection, documents_to_insert):
@@ -118,10 +104,12 @@ def mongo_do_iterative_insert(target_collection, documents_to_insert):
 if __name__ == "__main__":
     (options, args) = parse_args()
     start_date_str = options.start_date
+    end_date_str = options.end_date
 
-    assert len(start_date_str) == 8, "Invalid date [%s]. Be sure to use 'yyyymmdd' format." % start_date_str
+    assert len(start_date_str) == 8, "Invalid start_date [%s]. Be sure to use 'yyyymmdd' format." % start_date_str
+    assert len(end_date_str) == 8, "Invalid end_date [%s]. Be sure to use 'yyyymmdd' format." % end_date_str
     start_date = convert_yyyymmdd_to_date(start_date_str)
-    end_date = date.today()
+    end_date = convert_yyyymmdd_to_date(end_date_str)
 
     # connect to source and destination MongoDBs
     path_to_certificate = "./ca.pem"
