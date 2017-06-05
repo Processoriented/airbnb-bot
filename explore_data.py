@@ -11,13 +11,13 @@ MONGO_URI = "mongodb://0.0.0.0:27017"
 
 def parse_args():
     parser = OptionParser(usage="Usage: %prog [options]",
-                          description="")
+                          description="Try to print occupancy information.")
     parser.add_option("-s", "--start-date",
                       dest="start_date", default="20170601", type=str,
-                      help="How far back in time to copy data from.  Provide a date in 'yyyymmdd' format.")
+                      help="How far back in time to explore data from.  Provide a date in 'yyyymmdd' format.")
     parser.add_option("-e", "--end-date",
                       dest="end_date", default="20170604", type=str,
-                      help="The end date to copy data up to.  Provide a date in 'yyyymmdd' format.")
+                      help="The end date of the data to be explored.  Provide a date in 'yyyymmdd' format.")
 
     return parser.parse_args()
 
@@ -38,7 +38,10 @@ if __name__ == "__main__":
 
     aggregate_data = {}
 
-    for scrape_date in daterange(start_date, end_date):
+    dates = daterange(start_date, end_date)
+    print("Dates: %s thru %s" % (start_date, end_date))
+
+    for scrape_date in dates:
         print("scrape date: %s" % scrape_date)
         collection_name = convert_date_to_yyyymmdd(scrape_date)
 
